@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { Printer, X, Check, Phone, MapPin, User, Clock, Flame, Navigation, MessageCircle, Copy } from 'lucide-react';
-import { buildTrackingLink, buildWhatsAppConfirmationUrl } from '../utils/whatsapp';
+import { Printer, X, Check, Phone, MapPin, User, Clock, Flame, Navigation, Copy } from 'lucide-react';
+import { buildTrackingLink } from '../utils/whatsapp';
 import './ReceiptModal.css';
 
 export default function ReceiptModal({ isOpen, order, onClose, onTrack }) {
@@ -100,25 +100,6 @@ export default function ReceiptModal({ isOpen, order, onClose, onTrack }) {
   };
 
   const trackingUrl = buildTrackingLink({ orderId: order.orderId || order.id, origin: window.location.origin });
-  const whatsappUrl = buildWhatsAppConfirmationUrl({
-    phone: order.phone,
-    orderId: order.orderId || order.id,
-    trackingUrl,
-    customerName: order.name,
-    serviceType: order.serviceType,
-    total,
-    assignedRiderName: order.assignedRiderName,
-    assignedRiderPhone: order.assignedRiderPhone,
-    orderStatus: order.status,
-  });
-
-  const handleWhatsAppShare = () => {
-    const newWindow = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-    if (!newWindow) {
-      alert('WhatsApp popup was blocked. Opening WhatsApp in this tab instead.');
-      window.location.href = whatsappUrl;
-    }
-  };
 
   const handleCopyTrackingLink = async () => {
     try {
@@ -335,9 +316,6 @@ export default function ReceiptModal({ isOpen, order, onClose, onTrack }) {
           </button>
           <button className="btn-outline" onClick={handleCopyTrackingLink}>
             {copiedLink ? <Check size={18} /> : <Copy size={18} />} {copiedLink ? 'Copied' : 'Copy Link'}
-          </button>
-          <button className="btn-outline" onClick={handleWhatsAppShare}>
-            <MessageCircle size={18} /> WhatsApp
           </button>
           <button className="btn-gold close-btn" onClick={() => { if (onTrack) onTrack(order); }}>
             <Navigation size={18} /> Track Order

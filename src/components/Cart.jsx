@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { X, Minus, Plus, Trash2, ShoppingBag, Check } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { X, Minus, Plus, Trash2, ShoppingBag, Check, Ticket, Sparkles } from 'lucide-react';
 import './Cart.css';
 
-export default function Cart({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveFromCart, onClearCart, onOrderPlaced, serviceType, selectedLocation }) {
+export default function Cart({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveFromCart, onClearCart, onOrderPlaced, serviceType, selectedLocation, customerProfile, promoCode, setPromoCode, promoSummary, onApplyPromoCode }) {
   const [showCheckout, setShowCheckout] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [formData, setFormData] = useState({
@@ -19,13 +19,20 @@ export default function Cart({ isOpen, onClose, cartItems, onUpdateQuantity, onR
   const isPickup = serviceType === 'pickup';
   const subtotal = getSubtotal();
   const deliveryFee = (subtotal > 0 && !isPickup) ? 150 : 0;
-  const total = subtotal + deliveryFee;
+  const discountAmount = promoSummary?.discountAmount || 0;
+  const total = Math.max(0, subtotal + deliveryFee - discountAmount);
+  const loyaltyPoints = useMemo(() => Math.floor(subtotal / 100), [subtotal]);
 
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
+  };
+
+  const handlePromoApply = (e) => {
+    e.preventDefault();
+    onApplyPromoCode?.(promoCode, subtotal);
   };
 
   const handleCheckoutSubmit = (e) => {
@@ -43,6 +50,8 @@ export default function Cart({ isOpen, onClose, cartItems, onUpdateQuantity, onR
       phone: formData.phone,
       address: finalAddress,
       total: total,
+      loyaltyPointsEarned: loyaltyPoints,
+      promoCodeUsed: promoSummary?.promo?.label || '',
       items: cartItems,
       notes: formData.notes,
       status: 'received'
@@ -149,10 +158,37 @@ export default function Cart({ isOpen, onClose, cartItems, onUpdateQuantity, onR
                         <span>Delivery Fee ({isPickup ? 'Pickup' : 'Standard'})</span>
                         <span>Rs. {deliveryFee}</span>
                       </div>
+                      {discountAmount > 0 && (
+                        <div className="summary-row discount-row">
+                          <span>Promo Discount</span>
+                          <span>- Rs. {discountAmount}</span>
+                        </div>
+                      )}
                       <div className="summary-row total-row">
                         <span>Total Amount</span>
                         <span>Rs. {total}</span>
                       </div>
+                      <div className="loyalty-banner">
+                        <Sparkles size={14} />
+                        <span>You’ll earn {loyaltyPoints} loyalty points from this order.</span>
+                      </div>
+                      <form className="promo-code-form" onSubmit={handlePromoApply}>
+                        <div className="promo-code-input-row">
+                          <Ticket size={16} />
+                          <input
+                            type="text"
+                            placeholder="WELCOME10"
+                            value={promoCode}
+                            onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+                          />
+                        </div>
+                        <button type="submit" className="btn-outline promo-apply-btn">Apply</button>
+                      </form>
+                      {promoSummary && (
+                        <div className={`promo-message ${promoSummary.discountAmount > 0 ? 'success' : 'error'}`}>
+                          {promoSummary.message}
+                        </div>
+                      )}
                       <button className="btn-gold checkout-trigger-btn" onClick={() => setShowCheckout(true)}>
                         Proceed to Checkout
                       </button>
@@ -226,6 +262,11 @@ export default function Cart({ isOpen, onClose, cartItems, onUpdateQuantity, onR
                         Place Order (Rs. {total})
                       </button>
                     </div>
+                    {customerProfile && (
+                      <div className="checkout-loyalty-box">
+                        <strong>Current loyalty points:</strong> {customerProfile.loyaltyPoints || 0}
+                      </div>
+                    )}
                   </form>
                 )}
               </div>

@@ -59,7 +59,7 @@ const MENU_DATA = {
   ]
 };
 
-function DigitalMenu({ onAddToCart }) {
+function DigitalMenu({ onAddToCart, customerProfile, onToggleFavorite }) {
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const deferredSearchQuery = useDeferredValue(searchQuery);
@@ -176,6 +176,35 @@ function DigitalMenu({ onAddToCart }) {
           </div>
         </div>
 
+        <div className="menu-highlights reveal">
+          <div className="menu-highlight-card glass">
+            <strong>Reward Points</strong>
+            <span>Earn points on every meal and redeem them later.</span>
+          </div>
+          <div className="menu-highlight-card glass">
+            <strong>Saved Favorites</strong>
+            <span>Tap the heart to keep your go-to dishes handy.</span>
+          </div>
+          <div className="menu-highlight-card glass">
+            <strong>Order History</strong>
+            <span>Your recent orders stay available for quick reorders.</span>
+          </div>
+        </div>
+
+        {customerProfile?.orderHistory?.length > 0 && (
+          <div className="menu-history-card reveal glass">
+            <h3>Recent Orders</h3>
+            <div className="menu-history-list">
+              {customerProfile.orderHistory.slice(0, 4).map((order, index) => (
+                <div key={`${order.id || index}`} className="history-row">
+                  <span>Order #{order.id || index + 1}</span>
+                  <span>Rs. {order.total || 0}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Menu Listings */}
         <div className="menu-categories-container">
           {Object.keys(filteredMenu).map((category, catIdx) => (
@@ -197,7 +226,19 @@ function DigitalMenu({ onAddToCart }) {
                         </div>
                       )}
                       <div className="menu-item-content">
-                      <h4 className="menu-item-name">{item.name}</h4>
+                      <div className="menu-item-top-row">
+                        <h4 className="menu-item-name">{item.name}</h4>
+                        <button
+                          className={`favorite-btn ${customerProfile?.favorites?.includes(item.name) ? 'active' : ''}`}
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            onToggleFavorite?.(item.name);
+                          }}
+                          aria-label={`Save ${item.name}`}
+                        >
+                          ♥
+                        </button>
+                      </div>
                       {item.desc && <p className="menu-item-desc">{item.desc}</p>}
                       <div className="menu-item-footer">
                         <span className="menu-item-price">Rs. {item.price}</span>

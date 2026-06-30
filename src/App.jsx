@@ -16,6 +16,7 @@ import { enqueueOrder, getPendingOrders, markOrderSynced } from './utils/orderQu
 import { assignAvailableRiderToOrder } from './utils/orderAssignment';
 import { buildTrackingLink, buildWhatsAppConfirmationUrl } from './utils/whatsapp';
 import { getTrackingRouteState } from './utils/trackingRoute';
+import { applyPromoCode, updateCustomerProfileAfterOrder, toggleFavoriteItem } from './utils/customerFeatures';
 import './App.css';
 
 const normalizeOrderIdentifier = (value) => value === undefined || value === null ? '' : String(value);
@@ -32,16 +33,22 @@ export default function App() {
   // Startup modal & preference state
   const [serviceType, setServiceType] = useState(() => localStorage.getItem('ghousia_service_type') || '');
   const [selectedLocation, setSelectedLocation] = useState(() => localStorage.getItem('ghousia_location') || '');
-  const [autoWhatsAppOpen, setAutoWhatsAppOpen] = useState(() => {
-    const saved = localStorage.getItem('ghousia_auto_whatsapp_open');
-    return saved === null ? true : saved === 'true';
-  });
   const [isLocationModalOpen, setIsLocationModalOpen] = useState(!localStorage.getItem('ghousia_service_type'));
   
   // Receipt state
   const [placedOrderForReceipt, setPlacedOrderForReceipt] = useState(null);
   const [isReceiptOpen, setIsReceiptOpen] = useState(false);
   const [trackRouteState, setTrackRouteState] = useState(() => getTrackingRouteState());
+  const [customerProfile, setCustomerProfile] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('ghousia_customer_profile') || 'null') || { loyaltyPoints: 0, favorites: [], orderHistory: [] };
+    } catch {
+      return { loyaltyPoints: 0, favorites: [], orderHistory: [] };
+    }
+  });
+  const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('ghousia_dark_mode') === 'true');
+  const [promoCode, setPromoCode] = useState('');
+  const [promoSummary, setPromoSummary] = useState(null);
   const retryDelayRef = useRef(1000);
   const retryTimerRef = useRef(null);
   const isFlushingRef = useRef(false);
@@ -63,6 +70,11 @@ export default function App() {
       window.removeEventListener('hashchange', handleHashChange);
     };
   }, []);
+
+  useEffect(() => {
+    document.body.dataset.theme = isDarkMode ? 'dark' : 'light';
+    localStorage.setItem('ghousia_dark_mode', String(isDarkMode));
+  }, [isDarkMode]);
 
   useEffect(() => {
     if (isLoading) return;
@@ -125,6 +137,22 @@ export default function App() {
 
   const handleClearCart = useCallback(() => {
     setCartItems([]);
+    setPromoCode('');
+    setPromoSummary(null);
+  }, []);
+
+  const handleToggleFavorite = useCallback((itemName) => {
+    setCustomerProfile((current) => {
+      const nextProfile = toggleFavoriteItem(current, itemName);
+      localStorage.setItem('ghousia_customer_profile', JSON.stringify(nextProfile));
+      return nextProfile;
+    });
+  }, []);
+
+  const handleApplyPromoCode = useCallback((code, subtotal) => {
+    const nextSummary = applyPromoCode(subtotal, code);
+    setPromoSummary(nextSummary);
+    return nextSummary;
   }, []);
 
   const flushPendingOrders = useCallback(async () => {
@@ -220,6 +248,10 @@ export default function App() {
 
   const handleOrderPlaced = useCallback(async (orderData) => {
     const localId = `order_${Date.now()}`;
+    const checkoutTotal = Number(orderData.total || 0);
+    const nextProfile = updateCustomerProfileAfterOrder(customerProfile, { ...orderData, id: localId, total: checkoutTotal });
+    localStorage.setItem('ghousia_customer_profile', JSON.stringify(nextProfile));
+    setCustomerProfile(nextProfile);
     const completeOrderData = {
       ...orderData,
       serviceType: serviceType || 'delivery',
@@ -248,7 +280,7 @@ export default function App() {
     setIsReceiptOpen(true);
 
     const trackingUrl = buildTrackingLink({ orderId: autoAssignedOrder.orderId || autoAssignedOrder.id, origin: window.location.origin });
-    const whatsappUrl = buildWhatsAppConfirmationUrl({
+    const customerWhatsAppUrl = buildWhatsAppConfirmationUrl({
       phone: autoAssignedOrder.phone,
       orderId: autoAssignedOrder.orderId || autoAssignedOrder.id,
       trackingUrl,
@@ -260,11 +292,10 @@ export default function App() {
       orderStatus: autoAssignedOrder.status,
     });
 
-    if (autoWhatsAppOpen) {
-      const newWindow = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    if (autoAssignedOrder.phone) {
+      const newWindow = window.open(customerWhatsAppUrl, '_blank', 'noopener,noreferrer');
       if (!newWindow) {
-        alert('WhatsApp popup was blocked. Opening WhatsApp in this tab instead.');
-        window.location.href = whatsappUrl;
+        window.location.href = customerWhatsAppUrl;
       }
     }
 
@@ -404,7 +435,19 @@ export default function App() {
 
           <main>
             <Hero />
-            <DigitalMenu onAddToCart={handleAddToCart} />
+            <div className="app-feature-bar glass">
+              <div className="feature-pill">⭐ Loyalty points on every order</div>
+              <div className="feature-pill">🎟️ Use WELCOME10, FRIDAY20, GHOUSIA15</div>
+              <div className="feature-pill">💖 Save favorite dishes</div>
+              <button className="theme-toggle-btn" onClick={() => setIsDarkMode((value) => !value)}>
+                {isDarkMode ? '☀️ Light' : '🌙 Dark'}
+              </button>
+            </div>
+            <DigitalMenu
+              onAddToCart={handleAddToCart}
+              customerProfile={customerProfile}
+              onToggleFavorite={handleToggleFavorite}
+            />
           </main>
           <Footer />
           <WhatsAppButton />
@@ -420,6 +463,11 @@ export default function App() {
               onOrderPlaced={handleOrderPlaced}
               serviceType={serviceType}
               selectedLocation={selectedLocation}
+              customerProfile={customerProfile}
+              promoCode={promoCode}
+              setPromoCode={setPromoCode}
+              promoSummary={promoSummary}
+              onApplyPromoCode={handleApplyPromoCode}
             />
           </Suspense>
 

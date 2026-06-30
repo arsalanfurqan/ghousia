@@ -238,6 +238,72 @@
   padding: 0.8rem 0;
 }
 
+.promo-code-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.promo-code-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  border: 1px solid rgba(17, 17, 17, 0.12);
+  border-radius: 999px;
+  padding: 0.65rem 0.9rem;
+  background: #fff;
+}
+
+.promo-code-input-row input {
+  border: none;
+  outline: none;
+  width: 100%;
+  background: transparent;
+  color: var(--accent);
+}
+
+.promo-apply-btn {
+  justify-content: center;
+  padding: 0.65rem 1rem;
+  font-size: 0.72rem;
+}
+
+.promo-message {
+  font-size: 0.8rem;
+  border-radius: 10px;
+  padding: 0.55rem 0.7rem;
+}
+
+.promo-message.success {
+  background: rgba(37, 211, 102, 0.12);
+  color: #137a41;
+}
+
+.promo-message.error {
+  background: rgba(255, 51, 51, 0.12);
+  color: #b91c1c;
+}
+
+.loyalty-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  border-radius: 999px;
+  padding: 0.55rem 0.75rem;
+  background: rgba(212, 175, 55, 0.12);
+  color: var(--accent);
+  font-size: 0.8rem;
+}
+
+.checkout-loyalty-box {
+  margin-top: 0.5rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  background: rgba(17, 17, 17, 0.04);
+  font-size: 0.85rem;
+  color: var(--accent);
+}
+
 .order-success-screen {
   flex-grow: 1;
   display: flex;

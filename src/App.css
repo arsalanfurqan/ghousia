@@ -56,14 +56,15 @@
   z-index: 9999;
   display: flex;
   align-items: center;
-  padding: 0.5rem 1rem;
-  background: #f7f7f2 !important;
+  padding: 0.55rem 0.9rem;
+  background: rgba(247, 247, 243, 0.95) !important;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   border: 1px solid rgba(17,17,17,0.06);
-  border-radius: 30px;
+  border-radius: 999px;
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
   animation: fadeInDown 0.5s ease-out;
+  max-width: calc(100vw - 2rem);
 }
 
 @keyframes fadeInDown {
@@ -88,6 +89,8 @@
   color: #111;
   border-radius: 999px;
   transition: var(--transition-smooth);
+  flex: 1;
+  min-width: 0;
 }
 
 .floating-location-indicator-btn:hover {
@@ -133,6 +136,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .floating-cart-indicator-btn:hover {
@@ -167,61 +171,43 @@
   margin: -1rem auto 2rem;
   max-width: 1100px;
   padding: 0.9rem 1rem;
-  border-radius: 999px;
+  border-radius: 20px;
 }
 
 .feature-pill {
-  padding: 0.45rem 0.85rem;
+  padding: 0.45rem 0.8rem;
   border-radius: 999px;
   background: rgba(17, 17, 17, 0.04);
   color: var(--accent);
   font-size: 0.8rem;
 }
 
-.theme-toggle-btn {
-  border: none;
-  border-radius: 999px;
-  padding: 0.45rem 0.85rem;
-  background: var(--primary);
-  color: white;
-  cursor: pointer;
-}
-
-body[data-theme='dark'] {
-  background: #0f1114;
-  color: #f7f7f3;
-}
-
-body[data-theme='dark'] .menu-section,
-body[data-theme='dark'] .cart-drawer-content,
-body[data-theme='dark'] .glass,
-body[data-theme='dark'] .glass-premium,
-body[data-theme='dark'] .app-feature-bar {
-  background: rgba(17, 17, 17, 0.86);
-  color: #f7f7f3;
-  border-color: rgba(255,255,255,0.08);
-}
-
-body[data-theme='dark'] .menu-item-card,
-body[data-theme='dark'] .cart-summary,
-body[data-theme='dark'] .promo-code-input-row,
-body[data-theme='dark'] .checkout-loyalty-box {
-  background: #171a20;
-  color: #f7f7f3;
-}
-
 @media (max-width: 768px) {
   .floating-actions-dock {
-    top: 1rem;
-    right: 1rem;
-    padding: 0.4rem 0.8rem;
+    top: 0.75rem;
+    left: 0.75rem;
+    right: 0.75rem;
+    padding: 0.45rem 0.7rem;
+    justify-content: space-between;
+    border-radius: 999px;
   }
   .location-dock-text {
-    max-width: 100px;
-    font-size: 0.75rem;
+    max-width: 140px;
+    font-size: 0.74rem;
   }
   .dock-separator {
     margin: 0 0.5rem;
+  }
+  .app-feature-bar {
+    flex-direction: column;
+    align-items: stretch;
+    margin: 0 0.75rem 1.25rem;
+    padding: 0.75rem;
+    border-radius: 16px;
+  }
+  .feature-pill {
+    width: 100%;
+    text-align: center;
   }
 }
 

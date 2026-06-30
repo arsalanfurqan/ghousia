@@ -46,7 +46,6 @@ export default function App() {
       return { loyaltyPoints: 0, favorites: [], orderHistory: [] };
     }
   });
-  const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('ghousia_dark_mode') === 'true');
   const [promoCode, setPromoCode] = useState('');
   const [promoSummary, setPromoSummary] = useState(null);
   const retryDelayRef = useRef(1000);
@@ -72,9 +71,9 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    document.body.dataset.theme = isDarkMode ? 'dark' : 'light';
-    localStorage.setItem('ghousia_dark_mode', String(isDarkMode));
-  }, [isDarkMode]);
+    document.body.dataset.theme = 'light';
+    localStorage.removeItem('ghousia_dark_mode');
+  }, []);
 
   useEffect(() => {
     if (isLoading) return;
@@ -439,9 +438,6 @@ export default function App() {
               <div className="feature-pill">⭐ Loyalty points on every order</div>
               <div className="feature-pill">🎟️ Use WELCOME10, FRIDAY20, GHOUSIA15</div>
               <div className="feature-pill">💖 Save favorite dishes</div>
-              <button className="theme-toggle-btn" onClick={() => setIsDarkMode((value) => !value)}>
-                {isDarkMode ? '☀️ Light' : '🌙 Dark'}
-              </button>
             </div>
             <DigitalMenu
               onAddToCart={handleAddToCart}

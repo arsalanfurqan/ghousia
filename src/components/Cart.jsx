@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { X, Minus, Plus, Trash2, ShoppingBag, Check, Ticket, Sparkles } from 'lucide-react';
 import './Cart.css';
 
-export default function Cart({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveFromCart, onClearCart, onOrderPlaced, serviceType, selectedLocation, customerProfile, promoCode, setPromoCode, promoSummary, onApplyPromoCode, activeOrder, onTrackOrder }) {
+export default function Cart({ isOpen, onClose, cartItems, onUpdateQuantity, onRemoveFromCart, onClearCart, onOrderPlaced, serviceType, selectedLocation, customerProfile, promoCode, setPromoCode, promoSummary, onApplyPromoCode }) {
   const [showCheckout, setShowCheckout] = useState(false);
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [formData, setFormData] = useState({
@@ -100,19 +100,6 @@ export default function Cart({ isOpen, onClose, cartItems, onUpdateQuantity, onR
           </div>
         ) : (
           <>
-            {activeOrder && (
-              <div className="active-order-track-card">
-                <div className="active-order-track-card__info">
-                  <p className="active-order-track-card__label">Active Order</p>
-                  <h4>#{activeOrder.orderId || activeOrder.id}</h4>
-                  <p className="active-order-track-card__status">{activeOrder.status || 'received'}</p>
-                </div>
-                <button className="btn-outline active-order-track-card__button" onClick={() => onTrackOrder?.(activeOrder)}>
-                  Track Order
-                </button>
-              </div>
-            )}
-
             {cartItems.length === 0 ? (
               <div className="cart-empty-state">
                 <ShoppingBag size={64} className="empty-icon" />

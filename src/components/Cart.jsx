@@ -168,27 +168,6 @@ export default function Cart({ isOpen, onClose, cartItems, onUpdateQuantity, onR
                         <span>Total Amount</span>
                         <span>Rs. {total}</span>
                       </div>
-                      <div className="loyalty-banner">
-                        <Sparkles size={14} />
-                        <span>You’ll earn {loyaltyPoints} loyalty points from this order.</span>
-                      </div>
-                      <form className="promo-code-form" onSubmit={handlePromoApply}>
-                        <div className="promo-code-input-row">
-                          <Ticket size={16} />
-                          <input
-                            type="text"
-                            placeholder="WELCOME10"
-                            value={promoCode}
-                            onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
-                          />
-                        </div>
-                        <button type="submit" className="btn-outline promo-apply-btn">Apply</button>
-                      </form>
-                      {promoSummary && (
-                        <div className={`promo-message ${promoSummary.discountAmount > 0 ? 'success' : 'error'}`}>
-                          {promoSummary.message}
-                        </div>
-                      )}
                       <button className="btn-gold checkout-trigger-btn" onClick={() => setShowCheckout(true)}>
                         Proceed to Checkout
                       </button>
@@ -257,6 +236,23 @@ export default function Cart({ isOpen, onClose, cartItems, onUpdateQuantity, onR
                       />
                     </div>
 
+                    <form className="promo-code-form" onSubmit={handlePromoApply}>
+                      <div className="promo-code-input-row">
+                        <Ticket size={16} />
+                        <input
+                          type="text"
+                          placeholder="WELCOME10"
+                          value={promoCode}
+                          onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+                        />
+                      </div>
+                      <button type="submit" className="btn-outline promo-apply-btn">Apply</button>
+                    </form>
+                    {promoSummary && (
+                      <div className={`promo-message ${promoSummary.discountAmount > 0 ? 'success' : 'error'}`}>
+                        {promoSummary.message}
+                      </div>
+                    )}
                     <div className="checkout-actions">
                       <button type="submit" className="btn-gold">
                         Place Order (Rs. {total})

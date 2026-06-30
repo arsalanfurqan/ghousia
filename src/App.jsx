@@ -434,11 +434,6 @@ export default function App() {
 
           <main>
             <Hero />
-            <div className="app-feature-bar glass">
-              <div className="feature-pill">⭐ Loyalty points on every order</div>
-              <div className="feature-pill">🎟️ Use WELCOME10, FRIDAY20, GHOUSIA15</div>
-              <div className="feature-pill">💖 Save favorite dishes</div>
-            </div>
             <DigitalMenu
               onAddToCart={handleAddToCart}
               customerProfile={customerProfile}

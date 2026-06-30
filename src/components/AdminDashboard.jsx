@@ -3,7 +3,6 @@ import { getFirestoreHelpers } from '../firebase';
 import { normalizeRiderData, getRiderStatusText } from '../utils/riders';
 import { assignRiderToOrder, assignAvailableRiderToOrder, assignBestAvailableRiderToOrder, getAssignedRiderLabel, isOrderInDateRange } from '../utils/orderAssignment';
 import { buildCancelledOrderUpdate, reopenCancelledOrder } from '../utils/orderCancellation';
-import { buildRiderNotificationUrl } from '../utils/whatsapp';
 import { buildTrackingLink } from '../utils/whatsapp';
 import { ChefHat, Bike, CheckCircle, Clock, MapPin, Phone, User, ShoppingBag, X, DollarSign, TrendingUp, Plus, Users, LayoutGrid, Package, MessageCircle } from 'lucide-react';
 import { adminPages, getAdminPageConfig } from '../utils/adminViews';
@@ -262,23 +261,6 @@ export default function AdminDashboard() {
     }
   };
 
-  const openWhatsAppLink = (url) => {
-    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-    if (!newWindow) {
-      alert('WhatsApp popup was blocked. Redirecting the current tab to WhatsApp.');
-      window.location.href = url;
-    }
-  };
-
-  const buildRiderNotificationUrlForOrder = (order) => buildRiderNotificationUrl({
-    riderPhone: order.assignedRiderPhone,
-    customerName: order.name,
-    customerPhone: order.phone,
-    orderId: order.orderId || order.id,
-    trackingUrl: buildTrackingLink({ orderId: order.orderId || order.id, origin: window.location.origin }),
-    serviceType: order.serviceType,
-    orderStatus: order.status,
-  });
 
   const handleAssignRider = async (orderId, rider) => {
     const orderDocId = normalizeOrderId(orderId);
@@ -1188,11 +1170,6 @@ export default function AdminDashboard() {
                     <p><Bike size={16} className="gold-icon" /> <strong>Vehicle:</strong> {selectedOrder.assignedRiderVehicle}</p>
                   )}
                   <div className="action-buttons-row">
-                    {selectedOrder.assignedRiderPhone && selectedOrder.status !== 'cancelled' && (
-                      <button type="button" className="action-btn received-btn" onClick={() => openWhatsAppLink(buildRiderNotificationUrlForOrder(selectedOrder))}>
-                        <MessageCircle size={16} /> Send Rider WhatsApp
-                      </button>
-                    )}
                     {selectedOrder.status !== 'cancelled' && !selectedOrder.assignedRiderId && (
                       <button className="action-btn active" onClick={() => handleAutoAssignRider(selectedOrder.id || selectedOrder.orderId)}>
                         <Users size={16} /> Auto Assign Free Rider

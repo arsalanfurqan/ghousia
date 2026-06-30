@@ -16,6 +16,7 @@ import { enqueueOrder, getPendingOrders, markOrderSynced } from './utils/orderQu
 import { assignAvailableRiderToOrder } from './utils/orderAssignment';
 import { getTrackingRouteState } from './utils/trackingRoute';
 import { applyPromoCode, updateCustomerProfileAfterOrder, toggleFavoriteItem } from './utils/customerFeatures';
+import { clearPendingReceiptOrder, getPendingReceiptOrder, persistPendingReceiptOrder } from './utils/orderRecovery';
 import './App.css';
 
 const normalizeOrderIdentifier = (value) => value === undefined || value === null ? '' : String(value);
@@ -72,6 +73,15 @@ export default function App() {
   useEffect(() => {
     document.body.dataset.theme = 'light';
     localStorage.removeItem('ghousia_dark_mode');
+  }, []);
+
+  useEffect(() => {
+    const pendingReceiptOrder = getPendingReceiptOrder();
+    if (pendingReceiptOrder) {
+      setPlacedOrderForReceipt(pendingReceiptOrder);
+      setIsReceiptOpen(true);
+      setActiveOrder(pendingReceiptOrder);
+    }
   }, []);
 
   useEffect(() => {
@@ -270,9 +280,11 @@ export default function App() {
     const currentLocalOrders = JSON.parse(localStorage.getItem('ghousia_orders') || '[]');
     const nextLocalOrders = [autoAssignedOrder, ...currentLocalOrders];
     schedulePersistOrderHistory(nextLocalOrders);
+    localStorage.setItem('ghousia_orders', JSON.stringify(nextLocalOrders));
     window.dispatchEvent(new Event('storage'));
 
     enqueueOrder({ id: localId, payload: autoAssignedOrder }, 'ghousia_pending_orders');
+    persistPendingReceiptOrder(autoAssignedOrder);
 
     setPlacedOrderForReceipt(autoAssignedOrder);
     setIsReceiptOpen(true);
@@ -297,6 +309,7 @@ export default function App() {
       markOrderSynced(localId, docRef.id, 'ghousia_pending_orders');
 
       const syncedOrder = { ...autoAssignedOrder, id: docRef.id, status: 'received', createdAt: newOrder.createdAt };
+      persistPendingReceiptOrder(syncedOrder);
       setPlacedOrderForReceipt(syncedOrder);
       setActiveOrder(syncedOrder);
     } catch (error) {
@@ -317,6 +330,7 @@ export default function App() {
     if (placedOrderForReceipt) {
       setActiveOrder(placedOrderForReceipt);
     }
+    clearPendingReceiptOrder();
     setIsReceiptOpen(false);
   }, [placedOrderForReceipt]);
 

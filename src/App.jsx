@@ -14,7 +14,6 @@ const ReceiptModal = lazy(() => import('./components/ReceiptModal'));
 import { ShoppingBag } from 'lucide-react';
 import { enqueueOrder, getPendingOrders, markOrderSynced } from './utils/orderQueue';
 import { assignAvailableRiderToOrder } from './utils/orderAssignment';
-import { buildTrackingLink, buildWhatsAppConfirmationUrl } from './utils/whatsapp';
 import { getTrackingRouteState } from './utils/trackingRoute';
 import { applyPromoCode, updateCustomerProfileAfterOrder, toggleFavoriteItem } from './utils/customerFeatures';
 import './App.css';
@@ -277,26 +276,6 @@ export default function App() {
 
     setPlacedOrderForReceipt(autoAssignedOrder);
     setIsReceiptOpen(true);
-
-    const trackingUrl = buildTrackingLink({ orderId: autoAssignedOrder.orderId || autoAssignedOrder.id, origin: window.location.origin });
-    const customerWhatsAppUrl = buildWhatsAppConfirmationUrl({
-      phone: autoAssignedOrder.phone,
-      orderId: autoAssignedOrder.orderId || autoAssignedOrder.id,
-      trackingUrl,
-      customerName: autoAssignedOrder.name,
-      serviceType: autoAssignedOrder.serviceType,
-      total: autoAssignedOrder.total,
-      assignedRiderName: autoAssignedOrder.assignedRiderName,
-      assignedRiderPhone: autoAssignedOrder.assignedRiderPhone,
-      orderStatus: autoAssignedOrder.status,
-    });
-
-    if (autoAssignedOrder.phone) {
-      const newWindow = window.open(customerWhatsAppUrl, '_blank', 'noopener,noreferrer');
-      if (!newWindow) {
-        window.location.href = customerWhatsAppUrl;
-      }
-    }
 
     try {
       const { getFirestoreHelpers } = await import('./firebase');

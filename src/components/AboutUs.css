@@ -1,0 +1,165 @@
+.about-section {
+  background-color: var(--secondary);
+  border-top: 1px solid var(--border-gold);
+  border-bottom: 1px solid var(--border-gold);
+}
+
+/* About Collage */
+.about-images {
+  position: relative;
+  height: 480px;
+}
+
+.main-img-wrapper {
+  width: 80%;
+  height: 90%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-gold);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+}
+
+.about-img-main {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition-smooth);
+}
+
+.about-img-main:hover {
+  transform: scale(1.05);
+}
+
+.sub-img-wrapper {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 50%;
+  height: 55%;
+  border-radius: 12px;
+  overflow: hidden;
+  padding: 6px;
+}
+
+.about-img-sub {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.experience-badge {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  padding: 1.5rem;
+  text-align: center;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+}
+
+.exp-num {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--primary);
+  line-height: 1;
+}
+
+.exp-text {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  margin-top: 0.2rem;
+}
+
+/* Content Column */
+.luxury-title {
+  font-size: 2.8rem;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.about-description {
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.about-features {
+  margin-top: 2.5rem;
+  gap: 1.5rem !important;
+}
+
+.feature-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.feature-icon-wrapper {
+  background-color: rgba(212, 175, 55, 0.1);
+  border: 1px solid var(--border-gold);
+  border-radius: 8px;
+  padding: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-info h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+
+.feature-info p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Intersection Observer Animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 992px) {
+  .about-images {
+    height: 400px;
+    margin-bottom: 2rem;
+  }
+  .luxury-title {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .about-images {
+    height: 320px;
+  }
+  .experience-badge {
+    padding: 1rem;
+    min-width: 90px;
+  }
+  .exp-num {
+    font-size: 2rem;
+  }
+  .exp-text {
+    font-size: 0.65rem;
+  }
+}

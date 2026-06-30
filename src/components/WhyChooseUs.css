@@ -1,0 +1,95 @@
+.why-us-section {
+  background-color: var(--secondary);
+  border-top: 1px solid var(--border-gold);
+  border-bottom: 1px solid var(--border-gold);
+}
+
+.why-us-header {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.why-us-intro {
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 1rem auto 0 auto;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.cards-grid {
+  gap: 2.5rem !important;
+}
+
+/* Feature Card Styling */
+.why-card {
+  padding: 3rem 2.2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 12px;
+}
+
+.why-icon-box {
+  color: var(--primary);
+  margin-bottom: 1.8rem;
+  background: rgba(212, 175, 55, 0.05);
+  border: 1px solid var(--border-gold);
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-smooth);
+}
+
+.why-card:hover .why-icon-box {
+  background: var(--primary);
+  color: var(--secondary);
+  transform: scale(1.1) rotateY(180deg);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+.why-card-title {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.why-card-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* Card hover glow effect */
+.why-card-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.why-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--primary);
+  box-shadow: 0 15px 30px rgba(212, 175, 55, 0.1);
+}
+
+.why-card:hover .why-card-glow {
+  transform: translate(-50%, -50%) scale(1.5);
+}

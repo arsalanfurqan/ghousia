@@ -1,0 +1,175 @@
+/* App.css - Cleaned to avoid conflicts */
+.floating-cart-indicator {
+  position: fixed;
+  bottom: 7.5rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  background-color: var(--primary);
+  color: var(--secondary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+  z-index: 999;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.floating-cart-indicator:hover {
+  transform: scale(1.1);
+  background-color: var(--primary-hover);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #ff3333;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--secondary);
+}
+
+@media (max-width: 768px) {
+  .floating-cart-indicator {
+    bottom: 6.5rem;
+    right: 1.5rem;
+    width: 50px;
+    height: 50px;
+  }
+}
+
+.floating-actions-dock {
+  position: fixed;
+  top: 1.5rem;
+  right: 2rem;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: #f7f7f2 !important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(17,17,17,0.06);
+  border-radius: 30px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+  animation: fadeInDown 0.5s ease-out;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.floating-location-indicator-btn {
+  background: #ffffff;
+  border: 1px solid rgba(17,17,17,0.06);
+  padding: 0.35rem 0.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: #111;
+  border-radius: 999px;
+  transition: var(--transition-smooth);
+}
+
+.floating-location-indicator-btn:hover {
+  transform: translateY(-2px);
+}
+
+.location-dock-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #111;
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(0,0,0,0.12);
+}
+
+.location-dock-text {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #111;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dock-separator {
+  width: 1px;
+  height: 20px;
+  background-color: rgba(17,17,17,0.06);
+  margin: 0 1rem;
+}
+
+.floating-cart-indicator-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+  transition: var(--transition-smooth);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.floating-cart-indicator-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--primary-hover);
+  transform: scale(1.05);
+}
+
+.cart-badge-dock {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  background-color: #ff3333;
+  color: white;
+  font-size: 0.65rem;
+  font-weight: bold;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+  .floating-actions-dock {
+    top: 1rem;
+    right: 1rem;
+    padding: 0.4rem 0.8rem;
+  }
+  .location-dock-text {
+    max-width: 100px;
+    font-size: 0.75rem;
+  }
+  .dock-separator {
+    margin: 0 0.5rem;
+  }
+}
+

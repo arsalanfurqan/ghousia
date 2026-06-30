@@ -1,0 +1,225 @@
+.tracker-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.tracker-modal {
+  width: 100%;
+  max-width: 500px;
+  background: var(--bg-card);
+  border-radius: 16px;
+  padding: 2.5rem 2rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.tracker-close-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.tracker-close-btn:hover {
+  color: var(--primary);
+  transform: scale(1.1);
+}
+
+.tracker-header {
+  text-align: center;
+}
+
+.tracker-header .luxury-title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.tracker-order-id {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-family: monospace;
+}
+
+.tracker-status-highlight {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.8rem;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.status-icon-pulse {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse-ring 2s infinite;
+  margin-bottom: 0.5rem;
+}
+
+.gold-icon {
+  color: var(--primary);
+}
+
+.eta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(212, 175, 55, 0.2);
+  color: var(--primary);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+/* Timeline */
+.tracker-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 1rem;
+}
+
+.timeline-step {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.step-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: all 0.5s ease;
+  z-index: 2;
+}
+
+.step-line {
+  width: 2px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.1);
+  transition: all 0.5s ease;
+}
+
+.step-content {
+  padding-top: 0.6rem;
+  padding-bottom: 2rem;
+  color: var(--text-muted);
+  transition: all 0.5s ease;
+}
+
+.step-content h4 {
+  font-weight: 500;
+}
+
+/* States */
+.timeline-step.completed .step-icon {
+  background: var(--primary);
+  color: var(--secondary);
+}
+.timeline-step.completed .step-line {
+  background: var(--primary);
+}
+.timeline-step.completed .step-content {
+  color: var(--accent);
+}
+
+.timeline-step.active .step-icon {
+  background: transparent;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+.timeline-step.active .step-content {
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.tracker-footer {
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tracker-footer strong {
+  color: var(--accent);
+}
+
+.rider-info-card {
+  margin-top: 0.5rem;
+  padding: 0.9rem 1rem;
+  border-radius: 10px;
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.16);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.rider-info-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.close-tracker-btn {
+  margin-top: 1rem;
+  width: 100%;
+  justify-content: center;
+}
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+  70% { box-shadow: 0 0 0 20px rgba(212, 175, 55, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+}
+
+@media (max-width: 576px) {
+  .tracker-modal {
+    padding: 2rem 1.5rem;
+  }
+}

@@ -1,0 +1,206 @@
+.location-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.location-modal-overlay.force {
+  pointer-events: all;
+}
+
+.location-modal-content {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 12px;
+  padding: 2.5rem;
+  position: relative;
+  border: 1px solid var(--border-gold);
+}
+
+.location-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.location-modal-close:hover {
+  color: var(--primary);
+}
+
+.location-modal-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.location-modal-header .luxury-title {
+  font-size: 2.2rem;
+}
+
+.location-modal-header .subtitle {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.location-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.service-selector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 500px) {
+  .service-selector {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+.service-card {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  background: rgba(255, 255, 255, 0.02);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.service-card:hover {
+  border-color: rgba(212, 175, 55, 0.5);
+  transform: translateY(-2px);
+  background: rgba(212, 175, 55, 0.02);
+}
+
+.service-card.active {
+  border-color: var(--primary);
+  background: rgba(212, 175, 55, 0.08);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+}
+
+.service-icon {
+  color: var(--text-muted);
+  transition: color 0.3s;
+}
+
+.service-card.active .service-icon {
+  color: var(--primary);
+}
+
+.service-card h3 {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  color: var(--accent);
+}
+
+.service-card p {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+.location-selector-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.location-selector-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--accent);
+}
+
+.location-select-input {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--border-gold);
+  color: var(--accent);
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  width: 100%;
+  cursor: pointer;
+}
+
+.location-select-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.location-select-input option {
+  background: var(--bg-dark);
+  color: var(--accent);
+}
+
+.location-map-link {
+  align-self: flex-start;
+  background: transparent;
+  border: none;
+  color: var(--primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.location-inline-actions {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.location-detect-inline {
+  background: transparent;
+  border: 1px dashed rgba(17,17,17,0.08);
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.location-detect-inline:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+/* Manual detect button removed - kept auto-detect on open */
+
+.location-modal-content {
+  z-index: 1001;
+}
+
+.confirm-btn {
+  justify-content: center;
+  padding: 1rem;
+  width: 100%;
+}

@@ -1,0 +1,131 @@
+.popular-section {
+  background: linear-gradient(135deg, #121212 0%, #1d1d1d 100%);
+}
+
+.popular-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.popular-header .subtitle {
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.popular-header .luxury-title {
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
+}
+
+.popular-intro-text {
+  color: rgba(255,255,255,0.72);
+  max-width: 640px;
+  margin: 1rem auto 0 auto;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.popular-grid {
+  gap: 2.5rem !important;
+}
+
+/* Dish Card Styles */
+.dish-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 18px;
+  transition: var(--transition-smooth);
+  background: rgba(255,255,255,0.95);
+  border: 1px solid rgba(212, 175, 55, 0.16);
+}
+
+.dish-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--primary);
+  box-shadow: 0 18px 38px rgba(212, 175, 55, 0.18);
+}
+
+.dish-img-container {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+}
+
+.dish-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dish-card:hover .dish-img {
+  transform: scale(1.08);
+}
+
+.dish-tag {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: rgba(17, 17, 17, 0.85);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+}
+
+.dish-info {
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.dish-name {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  color: var(--accent);
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.dish-description {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  flex-grow: 1;
+}
+
+.dish-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.dish-price {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.dish-order-btn {
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 992px) {
+  .dish-img-container {
+    height: 200px;
+  }
+}

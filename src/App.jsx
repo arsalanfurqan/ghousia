@@ -287,6 +287,7 @@ export default function App() {
     persistPendingReceiptOrder(autoAssignedOrder);
 
     setPlacedOrderForReceipt(autoAssignedOrder);
+    setActiveOrder(autoAssignedOrder);
     setIsReceiptOpen(true);
 
     try {
@@ -333,6 +334,20 @@ export default function App() {
     clearPendingReceiptOrder();
     setIsReceiptOpen(false);
   }, [placedOrderForReceipt]);
+
+  const openOrderTracker = useCallback((order) => {
+    const nextOrderId = order?.orderId || order?.id;
+    if (nextOrderId) {
+      const nextHash = `#/track?orderId=${encodeURIComponent(nextOrderId)}`;
+      setTrackRouteState({ isTrackRoute: true, orderId: nextOrderId });
+      if (window.location.hash !== nextHash) {
+        window.location.hash = nextHash;
+      }
+    }
+    setActiveOrder(order);
+    setIsReceiptOpen(false);
+    setIsCartOpen(false);
+  }, []);
 
   const closeTracker = useCallback(() => {
     window.history.replaceState(null, '', window.location.pathname);
@@ -453,14 +468,7 @@ export default function App() {
               promoSummary={promoSummary}
               onApplyPromoCode={handleApplyPromoCode}
               activeOrder={activeOrder}
-              onTrackOrder={(order) => {
-                const nextOrderId = order?.orderId || order?.id;
-                if (nextOrderId) {
-                  window.location.hash = `#/track?orderId=${encodeURIComponent(nextOrderId)}`;
-                }
-                setActiveOrder(order);
-                setIsCartOpen(false);
-              }}
+              onTrackOrder={openOrderTracker}
             />
           </Suspense>
 
@@ -480,14 +488,7 @@ export default function App() {
               isOpen={isReceiptOpen}
               order={placedOrderForReceipt}
               onClose={handleReceiptClose}
-              onTrack={(order) => {
-                const nextOrderId = order?.orderId || order?.id;
-                if (nextOrderId) {
-                  window.location.hash = `#/track?orderId=${encodeURIComponent(nextOrderId)}`;
-                }
-                setActiveOrder(order);
-                setIsReceiptOpen(false);
-              }}
+              onTrack={openOrderTracker}
             />
           </Suspense>
 

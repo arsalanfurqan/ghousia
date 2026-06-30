@@ -14,9 +14,20 @@ test('loyalty points are earned from the order total', () => {
 
 test('order history and loyalty points are updated after checkout', () => {
   const profile = { loyaltyPoints: 40, favorites: [], orderHistory: [] };
-  const nextProfile = updateCustomerProfileAfterOrder(profile, { total: 600, id: 'order-1', items: [{ name: 'Zinger Burger', quantity: 2 }] });
+  const nextProfile = updateCustomerProfileAfterOrder(profile, {
+    total: 600,
+    id: 'order-1',
+    items: [{ name: 'Zinger Burger', quantity: 2 }],
+    assignedRiderId: 'rider-1',
+    assignedRiderName: 'Ali',
+    assignedRiderPhone: '03001234567',
+    assignedRiderVehicle: 'Bike',
+    assignedRiderLocation: 'Main Branch',
+  });
 
   assert.equal(nextProfile.loyaltyPoints, 46);
   assert.equal(nextProfile.orderHistory.length, 1);
   assert.equal(nextProfile.orderHistory[0].id, 'order-1');
+  assert.equal(nextProfile.orderHistory[0].assignedRiderName, 'Ali');
+  assert.equal(nextProfile.orderHistory[0].assignedRiderPhone, '03001234567');
 });

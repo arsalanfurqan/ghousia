@@ -191,20 +191,6 @@ function DigitalMenu({ onAddToCart, customerProfile, onToggleFavorite }) {
           </div>
         </div>
 
-        {customerProfile?.orderHistory?.length > 0 && (
-          <div className="menu-history-card reveal glass">
-            <h3>Recent Orders</h3>
-            <div className="menu-history-list">
-              {customerProfile.orderHistory.slice(0, 4).map((order, index) => (
-                <div key={`${order.id || index}`} className="history-row">
-                  <span>Order #{order.id || index + 1}</span>
-                  <span>Rs. {order.total || 0}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
         {/* Menu Listings */}
         <div className="menu-categories-container">
           {Object.keys(filteredMenu).map((category, catIdx) => (

@@ -452,6 +452,15 @@ export default function App() {
               setPromoCode={setPromoCode}
               promoSummary={promoSummary}
               onApplyPromoCode={handleApplyPromoCode}
+              activeOrder={activeOrder}
+              onTrackOrder={(order) => {
+                const nextOrderId = order?.orderId || order?.id;
+                if (nextOrderId) {
+                  window.location.hash = `#/track?orderId=${encodeURIComponent(nextOrderId)}`;
+                }
+                setActiveOrder(order);
+                setIsCartOpen(false);
+              }}
             />
           </Suspense>
 
